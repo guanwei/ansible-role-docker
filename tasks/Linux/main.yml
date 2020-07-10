@@ -12,7 +12,6 @@
     owner: root
     group: root
     mode: 0644
-    become: true
   when: docker_http_proxy is defined or docker_https_proxy is defined or docker_no_proxy is defined
   notify: restart docker
   become: true
