@@ -7,6 +7,7 @@
       - containerd
       - runc
     state: absent
+  become: true
 
 - name: Ensure dependencies are installed.
   apt:
@@ -17,18 +18,21 @@
       - gnupg-agent
       - software-properties-common
     state: present
+  become: true
 
 - name: Add Docker’s official GPG key.
   shell: >
     curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
   args:
     warn: false
+  become: true
 
 - name: Add Docker repository.
   apt_repository:
     repo: "{{ docker_apt_repository }}"
     state: present
     update_cache: true
+  become: true
 
 - name: Install Docker.
   apt:
@@ -38,3 +42,4 @@
       - containerd.io
     state: present
   notify: restart docker
+  become: true
