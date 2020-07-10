@@ -17,7 +17,7 @@
   become: true
 
 - name: Ensure Docker is started and enabled at boot
-  service:
+  systemd:
     name: docker
     state: started
     enabled: true
