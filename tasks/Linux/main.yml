@@ -5,7 +5,7 @@
 - include_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
-- name: Add current user to docker group
+- name: Add current user to docker group (not root user)
   user:
     name: "{{ ansible_user }}"
     group: docker
