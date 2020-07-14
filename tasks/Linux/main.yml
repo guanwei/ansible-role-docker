@@ -5,6 +5,12 @@
 - include_tasks: setup-Debian.yml
   when: ansible_os_family == 'Debian'
 
+- name: Add current user to docker group
+  user:
+    name: "{{ ansible_user }}"
+    group: docker
+  when: ansible_user != 'root'
+
 - name: Copy Docker proxy environment file
   template:
     src: http-proxy.conf.j2
