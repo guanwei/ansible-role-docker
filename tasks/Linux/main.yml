@@ -10,6 +10,7 @@
     name: "{{ ansible_user }}"
     group: docker
   when: ansible_user != 'root'
+  become: true
 
 - name: Copy Docker proxy environment file
   template:
