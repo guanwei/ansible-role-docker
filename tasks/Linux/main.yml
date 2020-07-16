@@ -31,7 +31,15 @@
     group: root
     mode: 0644
   when: docker_http_proxy is defined or docker_https_proxy is defined or docker_no_proxy is defined
-  notify: restart docker
+  register: docekr_proxy_file
+  become: true
+
+- name: Restart Docker
+  systemd:
+    name: docker
+    state: restarted
+    daemon_reload: true
+  when: docekr_proxy_file.changed
   become: true
 
 - name: Ensure Docker is started and enabled at boot
