@@ -41,8 +41,8 @@
       - docker-ce-cli
       - containerd.io
     state: present
-  register: install_docker
   retries: 3
   delay: 2
-  until: install_docker is success
+  register: result
+  until: result is success
   become: true
