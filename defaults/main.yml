@@ -5,5 +5,6 @@ docker_apt_repository: "deb [arch={{ docker_apt_arch }}] https://download.docker
 # docker_http_proxy: http://proxy.example.com:80
 # docker_https_proxy: https://proxy.example.com:443
 # docker_no_proxy: localhost,127.0.0.1,docker-registry.example.com,.corp
+docker_default_no_proxy: localhost,.local,.internal,.svc,127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
 
 add_current_user_to_docker_group: true
