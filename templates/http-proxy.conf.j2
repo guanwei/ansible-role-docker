@@ -6,7 +6,7 @@ Environment="HTTP_PROXY={{ docker_http_proxy }}"
 Environment="HTTPS_PROXY={{ docker_https_proxy }}"
 {% endif %}
 {% set no_proxy_items = docker_no_proxy.split(',') %}
-{% for item in ['127.0.0.0/8','10.0.0.0/8','172.16.0.0/12','192.168.0.0/16'] %}
+{% for item in ['localhost','.local','.internal','.svc','127.0.0.0/8','10.0.0.0/8','172.16.0.0/12','192.168.0.0/16'] %}
     {%- if item in no_proxy_items %}
         {%- set no_proxy_items = no_proxy_items + [item] %}
     {%- endif %}
