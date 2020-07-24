@@ -11,4 +11,4 @@ Environment="HTTPS_PROXY={{ docker_https_proxy }}"
         {% no_proxy_items += [item] %}
     {% endif %}
 {% endfor %}
-Environment="NO_PROXY={{ no_proxy_items.join(',') }}"
+Environment="NO_PROXY={% no_proxy_items.join(',') %}"
