@@ -6,15 +6,7 @@ Environment="HTTP_PROXY={{ docker_http_proxy }}"
 Environment="HTTPS_PROXY={{ docker_https_proxy }}"
 {% endif %}
 {% if docker_no_proxy is defined %}
-    {%- set no_proxy_items = docker_no_proxy.split(',') %}
-    {%- for item in docker_default_no_proxy.split(',') %}
-        {%- if item not in no_proxy_items %}
-            {{- no_proxy_items.append(item) }}
-        {%- endif %}
-    {%- endfor %}
-Environment="NO_PROXY={{ no_proxy_items | join(',') }}"
-{% else %}
-    {%- if docker_http_proxy is defined or docker_https_proxy is defined %}
+Environment="NO_PROXY={{ docker_no_proxy.split(',') | union(docker_default_no_proxy.split(',')) | join(',') }}"
+{% elif docker_http_proxy is defined or docker_https_proxy is defined %}
 Environment="NO_PROXY={{ docker_default_no_proxy }}"
-    {%- endif %}
 {% endif %}
