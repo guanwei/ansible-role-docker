@@ -7,6 +7,6 @@ Environment="HTTPS_PROXY={{ docker_https_proxy }}"
 {% endif %}
 {% if docker_no_proxy is defined %}
 Environment="NO_PROXY={{ docker_no_proxy }}"
-{% elif docker_http_proxy is defined or docker_https_proxy is defined %}
+{% elif (docker_http_proxy is defined) or (docker_https_proxy is defined) %}
 Environment="NO_PROXY={{ docker_default_no_proxy }}"
 {% endif %}
