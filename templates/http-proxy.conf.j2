@@ -9,7 +9,7 @@ Environment="HTTPS_PROXY={{ docker_https_proxy }}"
     {%- set no_proxy_items = docker_no_proxy.split(',') %}
     {%- for item in docker_default_no_proxy.split(',') %}
         {%- if item not in no_proxy_items %}
-            {%- set no_proxy_items = no_proxy_items + [item] %}
+            {%- no_proxy_items.append(item) %}
         {%- endif %}
     {%- endfor %}
 Environment="NO_PROXY={{ no_proxy_items | join(',') }}"
