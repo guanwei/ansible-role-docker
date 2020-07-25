@@ -17,7 +17,7 @@
     path: '/etc/systemd/system/docker.service.d/'
     state: directory
     recurse: yes
-    mode: 0755
+    mode: "0755"
   when: docker_http_proxy is defined or docker_https_proxy is defined or docker_no_proxy is defined
   become: true
 
