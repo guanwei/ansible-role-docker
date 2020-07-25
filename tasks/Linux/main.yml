@@ -17,8 +17,6 @@
     path: '/etc/systemd/system/docker.service.d/'
     state: directory
     recurse: yes
-    owner: root
-    group: root
     mode: 0755
   when: docker_http_proxy is defined or docker_https_proxy is defined or docker_no_proxy is defined
   become: true
@@ -27,9 +25,6 @@
   template:
     src: http-proxy.conf.j2
     dest: /etc/systemd/system/docker.service.d/http-proxy.conf
-    owner: root
-    group: root
-    mode: 0644
   register: docekr_proxy_file
   when: (docker_http_proxy is defined) or (docker_https_proxy is defined) or (docker_no_proxy is defined)
   become: true
