@@ -15,7 +15,7 @@
   become: true
 
 - name: Set Docker proxy
-  include_tasks: set_proxy.yml
+  include_tasks: set-proxy.yml
   when: (docker_http_proxy is defined) or (docker_https_proxy is defined)
 
 - name: Ensure Docker is started and enabled at boot
