@@ -1,0 +1,49 @@
+- name: Ensure old versions of Docker are not installed
+  apt:
+    name:
+      - docker
+      - docker-engine
+      - docker.io
+      - containerd
+      - runc
+    state: absent
+  become: true
+
+- name: Ensure dependencies are installed
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
+    state: present
+    update_cache: true
+  become: true
+
+- name: Add Docker’s official GPG key
+  shell: >
+    curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
+  args:
+    warn: false
+  become: true
+
+- name: Add Docker repository
+  apt_repository:
+    repo: "{{ docker_apt_repository }}"
+    state: present
+    update_cache: true
+  become: true
+
+- name: Install Docker
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+  retries: 3
+  delay: 2
+  register: result
+  until: result is success
+  become: true

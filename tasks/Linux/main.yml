@@ -1,0 +1,47 @@
+---
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Add current user to docker group (not root user)
+  user:
+    name: "{{ ansible_user }}"
+    group: docker
+  when:
+    - ansible_user != 'root'
+    - docker_add_current_user_to_group | bool
+  become: true
+
+- name: Create '/etc/systemd/system/docker.service.d/' folder if not exist
+  file:
+    path: "/etc/systemd/system/docker.service.d/"
+    state: directory
+    recurse: yes
+    mode: "0755"
+  when: docker_http_proxy is defined or docker_https_proxy is defined or docker_no_proxy is defined
+  become: true
+
+- name: Copy Docker proxy environment file
+  template:
+    src: http-proxy.conf.j2
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+  register: docekr_proxy_file
+  when: (docker_http_proxy is defined) or (docker_https_proxy is defined) or (docker_no_proxy is defined)
+  become: true
+
+- name: Restart Docker
+  systemd:
+    name: docker
+    state: restarted
+    daemon_reload: true
+  when: docekr_proxy_file.changed
+  become: true
+
+- name: Ensure Docker is started and enabled at boot
+  systemd:
+    name: docker
+    state: started
+    enabled: true
+  become: true
